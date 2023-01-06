@@ -12,7 +12,6 @@ Conduit is a hubby project that is a clone of the Medium website. It has a backe
 - [Contributing](#contributing)
 - [Versioning](#versioning)
 - [Authors](#authors)
-- [License](#license)
 
 ## 🏁 Getting Started
 
