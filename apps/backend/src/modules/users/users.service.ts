@@ -27,15 +27,27 @@ export class UsersService {
     });
   }
 
-  async findOne(id: number) {
+  async findById(id: number) {
     const user = await this.prisma.user.findFirst({ where: { id } });
     if (user) return user;
     throw new HttpException('User not found', HttpStatus.NOT_FOUND);
   }
 
-  async update(id: number, user: UpdateUserDto) {
-    if (!(await this.prisma.user.count({ where: { id } })))
+  async findByUsername(username: string) {
+    const user = await this.prisma.user.findFirst({ where: { username } });
+    if (user) return user;
+    throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+  }
+
+  async update(id: number, user: UpdateUserDto, requestUser: any) {
+    const userDB = await this.prisma.user.findFirst({ where: { id } });
+    if (!userDB)
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    if (requestUser.username !== userDB.username)
+      throw new HttpException(
+        'You dont have permission to update this user.',
+        HttpStatus.FORBIDDEN,
+      );
     return await this.prisma.user.update({
       data: user,
       where: {
@@ -44,9 +56,16 @@ export class UsersService {
     });
   }
 
-  async remove(id: number) {
-    if (!(await this.prisma.user.count({ where: { id } })))
+  async remove(id: number, requestUser: any) {
+    const userDB = await this.prisma.user.findFirst({ where: { id } });
+    if (!userDB)
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    if (requestUser.username !== userDB.username)
+      throw new HttpException(
+        'You dont have permission to update this user.',
+        HttpStatus.FORBIDDEN,
+      );
+
     return await this.prisma.user.delete({ where: { id } });
   }
 }
