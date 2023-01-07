@@ -11,7 +11,7 @@ export class AuthService {
   ) {}
 
   async validate(username: string, password: string) {
-    const user = await this.userService.findByUsername(username);
+    const user = await this.userService.findByUsername(username, true);
     if (!user)
       throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
     if (!(await bcrypt.compare(password, user.password)))

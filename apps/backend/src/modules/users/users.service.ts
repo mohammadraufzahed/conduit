@@ -27,14 +27,36 @@ export class UsersService {
     });
   }
 
-  async findById(id: number) {
-    const user = await this.prisma.user.findFirst({ where: { id } });
+  async findById(id: number, password = false) {
+    const user = await this.prisma.user.findFirst({
+      where: { id },
+      select: {
+        username: true,
+        email: true,
+        avatar: true,
+        cover: true,
+        articles: true,
+        description: true,
+        password,
+      },
+    });
     if (user) return user;
     throw new HttpException('User not found', HttpStatus.NOT_FOUND);
   }
 
-  async findByUsername(username: string) {
-    const user = await this.prisma.user.findFirst({ where: { username } });
+  async findByUsername(username: string, password = false) {
+    const user = await this.prisma.user.findFirst({
+      where: { username },
+      select: {
+        username: true,
+        email: true,
+        avatar: true,
+        cover: true,
+        articles: true,
+        description: true,
+        password,
+      },
+    });
     if (user) return user;
     throw new HttpException('User not found', HttpStatus.NOT_FOUND);
   }
