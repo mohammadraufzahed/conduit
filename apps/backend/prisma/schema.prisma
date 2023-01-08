@@ -24,7 +24,8 @@ model User {
 
 model Article {
   id       Int      @id @default(autoincrement())
-  title    String   @unique
+  slug     String   @unique
+  title    String
   subject  String
   body     String
   tags     String[]
