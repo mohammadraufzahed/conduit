@@ -61,11 +61,9 @@ export class UsersService {
     throw new HttpException('User not found', HttpStatus.NOT_FOUND);
   }
 
-  async update(id: number, user: UpdateUserDto, requestUser: any) {
-    const userDB = await this.prisma.user.findFirst({ where: { id } });
+  async update(user: UpdateUserDto, username: any) {
+    const userDB = await this.prisma.user.findFirst({ where: { username } });
     if (!userDB)
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    if (requestUser.username !== userDB.username)
       throw new HttpException(
         'You dont have permission to update this user.',
         HttpStatus.FORBIDDEN,
@@ -73,7 +71,7 @@ export class UsersService {
     return await this.prisma.user.update({
       data: user,
       where: {
-        id,
+        username,
       },
     });
   }
