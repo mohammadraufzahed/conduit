@@ -1,0 +1,11 @@
+html,
+body,
+#__next {
+  width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
