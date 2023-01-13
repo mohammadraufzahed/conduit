@@ -2,8 +2,11 @@ import type { AppProps } from "next/app";
 import { Roboto } from "@next/font/google";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import "react-toastify/dist/ReactToastify.css";
 
 import "../styles/globals.scss";
+import { RecoilRoot } from "recoil";
+import { ToastContainer } from "react-toastify";
 
 export const RobotoFont = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
@@ -14,7 +17,7 @@ export const RobotoFont = Roboto({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <RecoilRoot>
       <header className={RobotoFont.className}>
         <Navbar />
       </header>
@@ -22,6 +25,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </main>
       <Footer />
-    </>
+      <ToastContainer />
+    </RecoilRoot>
   );
 }
