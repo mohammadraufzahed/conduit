@@ -1,12 +1,33 @@
-import { TabPanelUnstyled } from "@mui/base";
-import { Avatar, Box, Container, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Container, Tab, Tabs } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import jwt from "../atoms/jwt";
+import profile from "../atoms/profile";
 import PostBox from "../components/PostBox";
-import styles from "../styles/Home.module.css";
+import httpClient from "../libs/axios";
+import { User } from "../types/user";
 
 export default function Home() {
   const [activeFeed, setActiveFeed] = useState<"global" | "personal">("global");
+  const setUser = useSetRecoilState(profile);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const jwtToken = useRecoilValue(jwt);
+  const userQuery = useQuery(
+    ["profile"],
+    () => httpClient.get<User>("/users").then((res) => res.data),
+    {
+      enabled: loggedIn,
+    }
+  );
+  useEffect(() => {
+    if (userQuery.data) setUser(userQuery.data);
+  }, [userQuery.data]);
+  useEffect(() => {
+    if (jwtToken) setLoggedIn(true);
+    else setLoggedIn(false);
+  }, [jwtToken]);
   return (
     <>
       <Head>

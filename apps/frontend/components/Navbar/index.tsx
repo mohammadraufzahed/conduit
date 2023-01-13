@@ -80,6 +80,21 @@ export default function Navbar() {
               >
                 Settings
               </Typography>
+              <Typography
+                onClick={() => {
+                  localStorage.removeItem("jwt");
+                  localStorage.removeItem("profile");
+                  window.location.href = "/";
+                }}
+                sx={{
+                  fontWeight: "bold",
+                  textDecoration: "none",
+                  color: "white",
+                  cursor: "pointer",
+                }}
+              >
+                Logout
+              </Typography>
               <Box>
                 <Tooltip title="Profile" sx={{ cursor: "pointer" }}>
                   <Avatar
