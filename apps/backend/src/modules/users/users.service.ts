@@ -13,10 +13,14 @@ export class UsersService {
     if (
       await this.prisma.user.count({
         where: {
-          username: user.username,
-          OR: {
-            email: user.email,
-          },
+          OR: [
+            {
+              email: user.email,
+            },
+            {
+              username: user.username,
+            },
+          ],
         },
       })
     )
