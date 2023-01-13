@@ -23,7 +23,11 @@ export class UsersController {
   create(@Body() user: CreateUserDto) {
     return this.usersService.create(user);
   }
-
+  @UseGuards(JwtAuthGaurd)
+  @Get()
+  async findBaseJwt(@Request() req: eRequest) {
+    return await this.usersService.findByUsername((req.user as any).username);
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     if (isNaN(id as unknown as number))
