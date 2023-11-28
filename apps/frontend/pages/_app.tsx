@@ -20,6 +20,7 @@ export const RobotoFont = Roboto({
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
+  const AppComponent = Component as any;
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
@@ -27,7 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Navbar />
         </header>
         <main style={{ marginTop: 80 }} className={RobotoFont.className}>
-          <Component {...pageProps} />
+          <AppComponent {...pageProps} />
         </main>
         <Footer />
         <ToastContainer />

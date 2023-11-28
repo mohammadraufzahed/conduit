@@ -1,8 +1,14 @@
 import { Html, Head, Main, NextScript } from "next/document";
+
+const NHtml = Html as any;
+const NHead = Head as any;
+const NMain = Main as any;
+const NNextScript = NextScript as any;
+
 export default function Document() {
   return (
-    <Html lang="en">
-      <Head />
+    <NHtml lang="en">
+      <NHead />
       <body
         style={{
           display: "flex",
@@ -10,9 +16,9 @@ export default function Document() {
           justifyContent: "space-between",
         }}
       >
-        <Main />
-        <NextScript />
+        <NMain />
+        <NNextScript />
       </body>
-    </Html>
+    </NHtml>
   );
 }
